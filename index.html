@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FL Bar AI Ethics Research | Legal Authority Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black:    #0a0a0a;
+  --dark:     #111111;
+  --card:     #181818;
+  --border:   #2a2a2a;
+  --border2:  #333333;
+  --pink:     #E8197A;
+  --pink-dim: rgba(232,25,122,0.15);
+  --pink-glow:rgba(232,25,122,0.25);
+  --orange:   #FF5A1F;
+  --orange-dim:rgba(255,90,31,0.12);
+  --white:    #ffffff;
+  --off-white:#f0f0f0;
+  --gray-400: #888888;
+  --gray-500: #666666;
+  --gray-600: #444444;
+  --shadow:   0 8px 32px rgba(0,0,0,0.5);
+  --shadow-lg:0 20px 60px rgba(0,0,0,0.7);
+  --radius:   12px;
+  --radius-sm:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--off-white);min-height:100vh;display:flex;flex-direction:column;}
+
+/* ── MOLECULAR ICON SVG ── */
+.mol-icon svg { display:block; }
+
+/* ── CONSENT SCREEN ── */
+#consent-screen{
+  display:flex;align-items:center;justify-content:center;
+  min-height:100vh;padding:24px;
+  background:radial-gradient(ellipse at 70% 20%, rgba(232,25,122,0.08) 0%, transparent 60%),
+             radial-gradient(ellipse at 20% 80%, rgba(255,90,31,0.06) 0%, transparent 50%),
+             var(--black);
+}
+.consent-card{
+  background:var(--dark);
+  border:1px solid var(--border);
+  border-radius:20px;
+  max-width:820px;width:100%;
+  box-shadow:var(--shadow-lg), 0 0 0 1px rgba(232,25,122,0.1);
+  animation:riseUp 0.5s cubic-bezier(0.16,1,0.3,1);
+  overflow:hidden;
+}
+@keyframes riseUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+
+.c-head{
+  background:var(--black);
+  padding:36px 44px 30px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:24px;
+  position:relative;
+  overflow:hidden;
+}
+.c-head::after{
+  content:'';position:absolute;
+  top:-60px;right:-60px;
+  width:200px;height:200px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(232,25,122,0.12) 0%, transparent 70%);
+}
+.head-text { flex:1; }
+.lal-eyebrow{
+  font-family:'Outfit',sans-serif;
+  font-size:11px;font-weight:600;
+  letter-spacing:3px;text-transform:uppercase;
+  color:var(--pink);
+  margin-bottom:10px;
+  display:flex;align-items:center;gap:10px;
+}
+.lal-eyebrow::before{
+  content:'';width:24px;height:1px;
+  background:var(--pink);display:inline-block;
+}
+.c-head h1{
+  font-family:'Outfit',sans-serif;
+  font-size:28px;font-weight:700;
+  color:var(--white);
+  line-height:1.25;
+  margin-bottom:8px;
+  letter-spacing:-0.5px;
+}
+.c-head h1 span{color:var(--pink);}
+.c-head .sub{
+  color:var(--gray-400);
+  font-size:13.5px;font-weight:300;
+  line-height:1.5;
+}
+.head-icon{flex-shrink:0;opacity:0.9;position:relative;z-index:1;}
+
+.c-body{padding:30px 44px 22px;max-height:52vh;overflow-y:auto;}
+.c-body::-webkit-scrollbar{width:4px;}
+.c-body::-webkit-scrollbar-track{background:transparent;}
+.c-body::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+
+.sec{
+  font-family:'Outfit',sans-serif;
+  font-size:10px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;
+  color:var(--pink);
+  border-bottom:1px solid var(--border);
+  padding-bottom:6px;
+  margin:24px 0 12px;
+}
+.sec:first-of-type{margin-top:0;}
+.c-body p,.c-body li{
+  font-size:14px;line-height:1.8;
+  color:rgba(255,255,255,0.7);
+}
+.c-body ul{padding-left:18px;margin:8px 0;}
+.c-body ul li{margin-bottom:4px;}
+
+.hl-box{
+  background:rgba(232,25,122,0.07);
+  border:1px solid rgba(232,25,122,0.2);
+  border-left:3px solid var(--pink);
+  border-radius:var(--radius-sm);
+  padding:14px 16px;margin:12px 0;
+  font-size:13.5px;line-height:1.78;
+  color:rgba(255,255,255,0.75);
+}
+.hl-box strong{color:var(--pink);}
+
+.warn-box{
+  background:rgba(255,90,31,0.07);
+  border:1px solid rgba(255,90,31,0.2);
+  border-left:3px solid var(--orange);
+  border-radius:var(--radius-sm);
+  padding:14px 16px;margin:12px 0;
+  font-size:13.5px;line-height:1.78;
+  color:rgba(255,255,255,0.75);
+}
+.warn-box strong{color:var(--orange);}
+
+.data-row{
+  display:flex;gap:12px;
+  padding:9px 0;
+  border-bottom:1px solid var(--border);
+  font-size:13.5px;line-height:1.7;
+  color:rgba(255,255,255,0.65);
+  align-items:flex-start;
+}
+.data-row:last-child{border-bottom:none;}
+.node{
+  width:8px;height:8px;
+  border-radius:50%;
+  background:var(--orange);
+  flex-shrink:0;margin-top:5px;
+  box-shadow:0 0 6px rgba(255,90,31,0.5);
+}
+.data-row a{color:var(--pink);font-weight:500;text-decoration:none;}
+.data-row a:hover{text-decoration:underline;}
+
+/* FOOTER / CHECKBOXES */
+.c-foot{
+  padding:24px 44px 32px;
+  background:var(--black);
+  border-top:1px solid var(--border);
+}
+.ack-title{
+  font-family:'Outfit',sans-serif;
+  font-size:13px;font-weight:600;
+  color:var(--white);
+  margin-bottom:16px;
+  letter-spacing:0.2px;
+}
+.cr{
+  display:flex;align-items:flex-start;
+  gap:13px;margin-bottom:11px;cursor:pointer;
+}
+.cr input[type="checkbox"]{
+  width:17px;height:17px;
+  margin-top:2px;flex-shrink:0;
+  cursor:pointer;
+  accent-color:var(--pink);
+  background:var(--dark);
+}
+.cr label{
+  font-size:13.5px;line-height:1.65;
+  color:rgba(255,255,255,0.65);
+  cursor:pointer;
+}
+.enter-btn{
+  display:block;width:100%;
+  margin-top:22px;padding:16px 24px;
+  background:var(--dark);
+  color:var(--gray-500);
+  font-family:'Outfit',sans-serif;
+  font-size:13px;font-weight:700;
+  letter-spacing:2.5px;text-transform:uppercase;
+  border:1px solid var(--border2);
+  border-radius:var(--radius);
+  cursor:pointer;
+  transition:all 0.3s;
+  opacity:0.45;pointer-events:none;
+}
+.enter-btn.ready{
+  opacity:1;pointer-events:all;
+  background:var(--pink);
+  color:var(--white);
+  border-color:var(--pink);
+  box-shadow:0 0 0 0 rgba(232,25,122,0.4);
+  animation:pulse-btn 2.5s infinite;
+}
+@keyframes pulse-btn{
+  0%,100%{box-shadow:0 4px 20px rgba(232,25,122,0.35);}
+  50%{box-shadow:0 4px 32px rgba(232,25,122,0.55);}
+}
+.enter-btn.ready:hover{
+  background:#f01e85;
+  transform:translateY(-2px);
+  box-shadow:0 8px 32px rgba(232,25,122,0.5);
+}
+
+/* ── CHAT SCREEN ── */
+#chat-screen{display:none;flex-direction:column;height:100vh;}
+
+.topbar{
+  background:var(--black);
+  border-bottom:1px solid var(--border);
+  padding:0 28px;height:60px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;
+  box-shadow:0 1px 0 var(--border), 0 4px 20px rgba(0,0,0,0.3);
+}
+.tl{display:flex;align-items:center;gap:14px;}
+.t-logomark{
+  width:36px;height:36px;
+  background:var(--black);
+  border:1px solid var(--border2);
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.t-text{}
+.t-name{
+  font-family:'Outfit',sans-serif;
+  font-size:15px;font-weight:700;
+  color:var(--white);
+  letter-spacing:-0.2px;
+  line-height:1.2;
+}
+.t-name span{color:var(--pink);}
+.t-sub{
+  font-size:10.5px;font-weight:400;
+  color:var(--gray-500);
+  letter-spacing:0.8px;
+  text-transform:uppercase;
+  font-family:'DM Sans',sans-serif;
+}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.cpill{
+  background:rgba(255,90,31,0.1);
+  border:1px solid rgba(255,90,31,0.25);
+  color:var(--orange);
+  font-family:'Outfit',sans-serif;
+  font-size:11px;font-weight:600;
+  padding:4px 12px;border-radius:20px;
+  letter-spacing:0.5px;
+}
+
+.wstrip{
+  background:rgba(232,25,122,0.06);
+  border-bottom:1px solid rgba(232,25,122,0.15);
+  padding:7px 28px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  gap:8px;
+}
+.wstrip p{
+  font-size:11.5px;color:rgba(232,25,122,0.85);
+  font-weight:500;text-align:center;
+  font-family:'Outfit',sans-serif;
+  letter-spacing:0.3px;
+}
+
+/* MESSAGES */
+.messages{
+  flex:1;overflow-y:auto;
+  padding:28px;
+  display:flex;flex-direction:column;gap:18px;
+  background:var(--dark);
+  scroll-behavior:smooth;
+}
+.messages::-webkit-scrollbar{width:5px;}
+.messages::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+
+.welcome{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:32px 36px;
+  max-width:700px;align-self:center;width:100%;
+  text-align:center;
+  box-shadow:var(--shadow);
+  animation:riseUp 0.4s ease;
+}
+.welcome .w-icon{margin:0 auto 16px;width:56px;height:56px;}
+.welcome h2{
+  font-family:'Outfit',sans-serif;
+  font-size:22px;font-weight:700;
+  color:var(--white);
+  margin-bottom:8px;letter-spacing:-0.3px;
+}
+.welcome p{
+  font-size:14px;color:var(--gray-400);
+  line-height:1.75;margin-bottom:20px;
+}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
+.chip{
+  background:var(--dark);
+  border:1px solid var(--border2);
+  color:rgba(255,255,255,0.7);
+  font-size:12.5px;padding:8px 16px;
+  border-radius:20px;cursor:pointer;
+  transition:all 0.2s;
+  font-family:'DM Sans',sans-serif;
+}
+.chip:hover{
+  background:var(--pink-dim);
+  border-color:var(--pink);
+  color:var(--white);
+  transform:translateY(-1px);
+}
+
+/* MESSAGE ROWS */
+.msg-row{display:flex;gap:12px;animation:riseUp 0.3s ease;max-width:860px;}
+.msg-row.user{align-self:flex-end;flex-direction:row-reverse;}
+.msg-row.assistant{align-self:flex-start;}
+.avatar{
+  width:34px;height:34px;
+  border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:2px;
+  font-size:14px;font-weight:700;
+  font-family:'Outfit',sans-serif;
+}
+.avatar.ai{
+  background:var(--black);
+  border:1px solid var(--border2);
+}
+.avatar.user{
+  background:var(--pink);
+  color:var(--white);
+}
+.bubble{
+  padding:14px 20px;
+  border-radius:var(--radius);
+  font-size:14.5px;line-height:1.78;
+  max-width:700px;
+}
+.bubble.ai{
+  background:var(--card);
+  border:1px solid var(--border);
+  color:rgba(255,255,255,0.82);
+  border-radius:4px 14px 14px 14px;
+  box-shadow:var(--shadow);
+}
+.bubble.user{
+  background:var(--pink);
+  color:rgba(255,255,255,0.95);
+  border-radius:14px 4px 14px 14px;
+}
+.bubble.ai p{margin-bottom:10px;}
+.bubble.ai p:last-child{margin-bottom:0;}
+.bubble.ai strong{color:var(--white);}
+.bubble.ai ul,.bubble.ai ol{padding-left:20px;margin:8px 0;}
+.bubble.ai li{margin-bottom:5px;}
+.src-note{
+  font-size:11.5px;
+  color:var(--gray-500);
+  margin-top:10px;padding-top:10px;
+  border-top:1px solid var(--border);
+  font-style:italic;
+  display:flex;align-items:flex-start;gap:6px;
+}
+.src-note::before{content:'⚠';font-style:normal;font-size:11px;color:var(--orange);flex-shrink:0;}
+
+/* TYPING */
+.typing-indicator{display:flex;gap:5px;align-items:center;padding:14px 20px;}
+.typing-indicator span{
+  width:7px;height:7px;
+  background:var(--border2);
+  border-radius:50%;
+  animation:tb 1.2s infinite;
+}
+.typing-indicator span:nth-child(2){animation-delay:0.2s;}
+.typing-indicator span:nth-child(3){animation-delay:0.4s;}
+@keyframes tb{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-7px);background:var(--pink);}}
+
+/* INPUT */
+.input-area{
+  background:var(--black);
+  border-top:1px solid var(--border);
+  padding:16px 28px;flex-shrink:0;
+}
+.input-row{
+  display:flex;gap:10px;align-items:flex-end;
+  max-width:860px;margin:0 auto;
+}
+textarea#user-input{
+  flex:1;
+  background:var(--card);
+  border:1.5px solid var(--border2);
+  border-radius:var(--radius);
+  padding:13px 18px;
+  font-family:'DM Sans',sans-serif;
+  font-size:14.5px;line-height:1.6;
+  color:var(--off-white);
+  resize:none;
+  min-height:50px;max-height:140px;
+  overflow-y:auto;
+  transition:border-color 0.2s,box-shadow 0.2s;
+}
+textarea#user-input:focus{
+  outline:none;
+  border-color:var(--pink);
+  box-shadow:0 0 0 3px rgba(232,25,122,0.1);
+}
+textarea#user-input::placeholder{color:var(--gray-500);}
+.send-btn{
+  width:50px;height:50px;
+  background:var(--pink);
+  border:none;border-radius:var(--radius);
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.2s;flex-shrink:0;
+  box-shadow:0 4px 16px rgba(232,25,122,0.35);
+}
+.send-btn:hover{background:#f01e85;transform:scale(1.06);box-shadow:0 6px 20px rgba(232,25,122,0.5);}
+.send-btn:disabled{opacity:0.4;pointer-events:none;}
+.send-btn svg{width:20px;height:20px;fill:var(--white);}
+.input-hint{
+  font-size:11.5px;color:var(--gray-600);
+  text-align:center;margin-top:8px;
+  max-width:860px;margin-left:auto;margin-right:auto;
+  font-family:'DM Sans',sans-serif;
+}
+
+/* API KEY MODAL */
+#key-modal{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,0.85);
+  backdrop-filter:blur(6px);
+  display:none;align-items:center;justify-content:center;
+  z-index:999;padding:24px;
+}
+.key-card{
+  background:var(--dark);
+  border:1px solid var(--border2);
+  border-radius:16px;padding:36px;
+  max-width:500px;width:100%;
+  box-shadow:var(--shadow-lg);
+  animation:riseUp 0.3s ease;
+}
+.key-card h2{
+  font-family:'Outfit',sans-serif;
+  font-size:20px;font-weight:700;
+  color:var(--white);margin-bottom:6px;
+}
+.key-card p{
+  font-size:13.5px;color:var(--gray-400);
+  line-height:1.75;margin-bottom:14px;
+}
+.key-card a{color:var(--pink);font-weight:500;text-decoration:none;}
+.key-card a:hover{text-decoration:underline;}
+#api-key-input{
+  width:100%;
+  background:var(--card);
+  border:1.5px solid var(--border2);
+  border-radius:var(--radius-sm);
+  padding:12px 16px;
+  font-family:'DM Sans',sans-serif;
+  font-size:14px;color:var(--off-white);
+  margin-bottom:12px;
+  transition:border-color 0.2s;
+}
+#api-key-input:focus{outline:none;border-color:var(--pink);}
+#api-key-input::placeholder{color:var(--gray-500);}
+.key-save-btn{
+  width:100%;padding:14px;
+  background:var(--pink);color:var(--white);
+  border:none;border-radius:var(--radius-sm);
+  font-family:'Outfit',sans-serif;
+  font-size:13.5px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;
+  cursor:pointer;transition:all 0.2s;
+  box-shadow:0 4px 16px rgba(232,25,122,0.35);
+}
+.key-save-btn:hover{background:#f01e85;transform:translateY(-1px);}
+.key-note{font-size:12px;color:var(--gray-500);text-align:center;margin-top:12px;line-height:1.6;}
+.err-bubble{
+  background:rgba(255,90,31,0.08);
+  border:1px solid rgba(255,90,31,0.25);
+  border-radius:var(--radius);
+  padding:14px 18px;
+  font-size:13.5px;color:rgba(255,140,80,0.9);
+  max-width:500px;align-self:flex-start;
+}
+</style>
+</head>
+<body>
+
+<!-- CONSENT SCREEN -->
+
+<!-- TOKEN GATE SCREEN -->
+<div id="token-screen" style="display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px;background:radial-gradient(ellipse at 70% 20%, rgba(232,25,122,0.08) 0%, transparent 60%), var(--black);">
+  <div style="background:var(--dark);border:1px solid var(--border);border-radius:20px;max-width:460px;width:100%;box-shadow:var(--shadow-lg);overflow:hidden;text-align:center;animation:riseUp 0.4s ease;">
+    <div style="background:var(--black);padding:32px 40px 24px;border-bottom:2px solid var(--pink);">
+      <div style="font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--pink);margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:10px;"><span style="width:22px;height:1px;background:var(--pink);display:inline-block;"></span>Legal Authority Lab<span style="width:22px;height:1px;background:var(--pink);display:inline-block;"></span></div>
+      <h2 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:var(--white);margin-bottom:6px;">FL Bar AI Ethics Tool</h2>
+      <p style="color:var(--gray-400);font-size:13.5px;font-weight:300;">Restricted to registered Florida Bar members</p>
+    </div>
+    <div style="padding:32px 40px 36px;" id="gate-content">
+      <div id="gate-checking" style="display:none;">
+        <div style="color:var(--gray-400);font-size:14px;margin-bottom:8px;">Verifying your access...</div>
+        <div class="typing-indicator" style="justify-content:center;"><span></span><span></span><span></span></div>
+      </div>
+      <div id="gate-invalid" style="display:none;">
+        <div style="background:rgba(255,90,31,0.08);border:1px solid rgba(255,90,31,0.2);border-left:3px solid var(--orange);border-radius:8px;padding:14px 16px;margin-bottom:20px;font-size:13.5px;color:rgba(255,160,100,0.9);line-height:1.7;text-align:left;">This link is not recognized or has expired. Please register to receive a valid access link.</div>
+        <a href="/register" style="display:block;padding:14px;background:var(--pink);color:var(--white);font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border-radius:var(--radius);box-shadow:0 4px 16px rgba(232,25,122,0.35);">Register for Access</a>
+      </div>
+      <div id="gate-default">
+        <p style="color:rgba(255,255,255,0.65);font-size:14px;line-height:1.75;margin-bottom:24px;">This tool is restricted to registered Florida Bar members. If you have already registered, use the personal link from your email.</p>
+        <a href="/register" style="display:block;padding:14px;background:var(--pink);color:var(--white);font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border-radius:var(--radius);box-shadow:0 4px 16px rgba(232,25,122,0.35);">Register for Access</a>
+        <p style="color:var(--gray-500);font-size:12px;margin-top:16px;line-height:1.6;">Already registered? Use the personal link from your welcome email.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="consent-screen">
+  <div class="consent-card">
+
+    <div class="c-head">
+      <div class="head-text">
+        <div class="lal-eyebrow">Legal Authority Lab</div>
+        <h1>Florida Bar <span>AI Ethics</span><br>Research Tool</h1>
+        <p class="sub">Authorized for Florida-licensed attorneys only &nbsp;·&nbsp; Read before proceeding</p>
+      </div>
+      <div class="head-icon mol-icon">
+        <!-- Molecular network icon matching LAL brand -->
+        <svg width="90" height="90" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Dashed extensions -->
+          <line x1="60" y1="8" x2="60" y2="20" stroke="#E8197A" stroke-width="2" stroke-dasharray="4,3"/>
+          <line x1="60" y1="100" x2="60" y2="112" stroke="#E8197A" stroke-width="2" stroke-dasharray="4,3"/>
+          <line x1="100" y1="28" x2="110" y2="22" stroke="#E8197A" stroke-width="2" stroke-dasharray="4,3"/>
+          <line x1="100" y1="92" x2="110" y2="98" stroke="#E8197A" stroke-width="2" stroke-dasharray="4,3"/>
+          <line x1="20" y1="28" x2="10" y2="22" stroke="#E8197A" stroke-width="2" stroke-dasharray="4,3"/>
+          <!-- Hexagon edges -->
+          <line x1="60" y1="22" x2="94" y2="42" stroke="#E8197A" stroke-width="2.5"/>
+          <line x1="94" y1="42" x2="94" y2="78" stroke="#E8197A" stroke-width="2.5"/>
+          <line x1="94" y1="78" x2="60" y2="98" stroke="#E8197A" stroke-width="2.5"/>
+          <line x1="60" y1="98" x2="26" y2="78" stroke="#E8197A" stroke-width="2.5"/>
+          <line x1="26" y1="78" x2="26" y2="42" stroke="#E8197A" stroke-width="2.5"/>
+          <line x1="26" y1="42" x2="60" y2="22" stroke="#E8197A" stroke-width="2.5"/>
+          <!-- Double bond lines (inner) -->
+          <line x1="60" y1="26" x2="90" y2="43" stroke="#E8197A" stroke-width="1.5" opacity="0.5"/>
+          <line x1="30" y1="44" x2="30" y2="76" stroke="#E8197A" stroke-width="1.5" opacity="0.5"/>
+          <line x1="90" y1="77" x2="63" y2="94" stroke="#E8197A" stroke-width="1.5" opacity="0.5"/>
+          <!-- Outer node circles -->
+          <circle cx="94" cy="28" r="7" fill="#FF5A1F" stroke="#E8197A" stroke-width="1.5"/>
+          <circle cx="110" cy="60" r="5" fill="#FF5A1F" opacity="0.6"/>
+          <!-- Main nodes -->
+          <circle cx="60" cy="22" r="7.5" fill="#FF5A1F" stroke="#E8197A" stroke-width="1.5"/>
+          <circle cx="94" cy="42" r="7.5" fill="#FF5A1F" stroke="#E8197A" stroke-width="1.5"/>
+          <circle cx="94" cy="78" r="7.5" fill="#FF5A1F" stroke="#E8197A" stroke-width="1.5"/>
+          <circle cx="60" cy="98" r="7.5" fill="#FF5A1F" stroke="#E8197A" stroke-width="1.5"/>
+          <circle cx="26" cy="78" r="7.5" fill="#FF5A1F" stroke="#E8197A" stroke-width="1.5"/>
+          <circle cx="26" cy="42" r="7.5" fill="#FF5A1F" stroke="#E8197A" stroke-width="1.5"/>
+          <!-- Center node -->
+          <circle cx="60" cy="60" r="8" fill="#FF5A1F" stroke="#E8197A" stroke-width="1.5"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="c-body">
+
+      <div class="sec">What This Tool Is</div>
+      <p>A legal research assistant providing access to Florida Bar ethics opinions, Florida and federal court decisions, Bar rules, and sample AI use certifications relevant to the ethical use of artificial intelligence in Florida legal practice. Developed by Legal Authority Lab — AI built for law firms, powered by real lawyers.</p>
+
+      <div class="sec">What This Tool Is Not</div>
+      <div class="warn-box">
+        <strong>This tool does not provide legal advice.</strong> Responses are informational only and do not constitute legal counsel, formal ethics opinions, or official guidance from The Florida Bar. Nothing in this tool creates an attorney-client relationship between any user and Legal Authority Lab or any affiliated attorney or firm.<br><br>
+        For formal ethics guidance: <strong>Florida Bar Ethics Hotline (800) 235-8619</strong>
+      </div>
+
+      <div class="sec">Knowledge Base — Sources &amp; Limitations</div>
+      <p>Responses are generated solely from a curated knowledge base including:</p>
+      <ul>
+        <li>Florida Bar Rules of Professional Conduct</li>
+        <li>Florida Bar formal ethics opinions on AI in legal practice</li>
+        <li>Selected Florida and federal court decisions on AI documents, privilege &amp; discovery</li>
+        <li>Sample AI use certifications required by Florida courts</li>
+        <li>Secondary legal analysis on AI ethics in legal practice</li>
+      </ul>
+      <div class="hl-box">
+        <strong>⚠ This tool does not search the internet.</strong> It does not access live Florida Bar databases, real-time court dockets, or current legislative updates. It searches only its loaded knowledge base.<br><br>
+        <strong>Knowledge base current as of: April 25, 2026.</strong> Bar opinions, court rules, and standing orders change frequently. Always verify any cited authority independently before relying on it.
+      </div>
+
+      <div class="sec">How Your Data Is Handled — AI Model Training</div>
+      <div class="data-row"><div class="node"></div><div>Your queries are <strong style="color:var(--white);">not stored beyond your active session.</strong> Query history is not retained when your session ends.</div></div>
+      <div class="data-row"><div class="node"></div><div><strong style="color:var(--white);">Anthropic's API does not use your inputs to train its AI models.</strong> The API operates under enterprise data terms that prohibit use of inputs for model training by default — a critical distinction from consumer tools like free Claude.ai or ChatGPT. Review current terms at <a href="https://www.anthropic.com/legal/privacy" target="_blank">anthropic.com/legal/privacy</a>.</div></div>
+      <div class="data-row"><div class="node"></div><div>Your queries <strong style="color:var(--white);">are transmitted to Anthropic's API servers</strong> for processing. By using this tool you acknowledge that transmission.</div></div>
+      <div class="data-row"><div class="node"></div><div><strong style="color:var(--white);">No query logs are shared with other users.</strong> Each session is fully private and isolated.</div></div>
+
+      <div class="sec">Do Not Enter Client Information</div>
+      <div class="warn-box">
+        <strong>This tool is for general Florida ethics research only.</strong> You must not enter:
+        <ul style="margin-top:8px;">
+          <li>Client names or any identifying information</li>
+          <li>Case numbers or court file numbers</li>
+          <li>Opposing party names</li>
+          <li>Facts specific to any pending or closed matter</li>
+          <li>Any information that could identify a client, even indirectly</li>
+        </ul>
+        <br>If uploading a document, <strong>redact all client-identifying information before uploading</strong> — names, addresses, account numbers, dates of birth, and case numbers.<br><br>
+        Entering client information into any third-party AI tool may implicate your obligations under <strong>Florida Bar Rule 4-1.6</strong> and may affect privilege or work product protection. <em>See</em> Fla. Bar Ethics Op. 24-1 (Jan. 19, 2024); <em>United States v. Heppner</em>, S.D.N.Y. (2026).
+      </div>
+
+    </div>
+
+    <div class="c-foot">
+      <div class="ack-title">By clicking below you acknowledge that:</div>
+      <label class="cr"><input type="checkbox" class="ack-check"><label>This tool does not provide legal advice and does not create an attorney-client relationship with Legal Authority Lab or any affiliated attorney.</label></label>
+      <label class="cr"><input type="checkbox" class="ack-check"><label>The knowledge base is current as of April 25, 2026. I will independently verify any cited authority before relying on it.</label></label>
+      <label class="cr"><input type="checkbox" class="ack-check"><label>My queries are processed through Anthropic's API and I have had the opportunity to review Anthropic's data use and privacy terms.</label></label>
+      <label class="cr"><input type="checkbox" class="ack-check"><label>Anthropic's API does not use my inputs for model training, but my queries are transmitted to Anthropic's servers for processing.</label></label>
+      <label class="cr"><input type="checkbox" class="ack-check"><label>I will not enter any client name, case number, or client-identifying information into this tool.</label></label>
+      <label class="cr"><input type="checkbox" class="ack-check"><label>I will redact all client-identifying information from any document before uploading it to this tool.</label></label>
+      <label class="cr"><input type="checkbox" class="ack-check"><label>This tool searches only its loaded knowledge base and does not access the internet or live legal databases.</label></label>
+      <button class="enter-btn" id="enter-btn" onclick="enterTool()">I Understand and Agree — Enter the Tool</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- CHAT SCREEN -->
+<div id="chat-screen">
+  <div class="topbar">
+    <div class="tl">
+      <div class="t-logomark">
+        <svg width="22" height="22" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="60" y1="22" x2="94" y2="42" stroke="#E8197A" stroke-width="3"/>
+          <line x1="94" y1="42" x2="94" y2="78" stroke="#E8197A" stroke-width="3"/>
+          <line x1="94" y1="78" x2="60" y2="98" stroke="#E8197A" stroke-width="3"/>
+          <line x1="60" y1="98" x2="26" y2="78" stroke="#E8197A" stroke-width="3"/>
+          <line x1="26" y1="78" x2="26" y2="42" stroke="#E8197A" stroke-width="3"/>
+          <line x1="26" y1="42" x2="60" y2="22" stroke="#E8197A" stroke-width="3"/>
+          <circle cx="60" cy="22" r="8" fill="#FF5A1F"/>
+          <circle cx="94" cy="42" r="8" fill="#FF5A1F"/>
+          <circle cx="94" cy="78" r="8" fill="#FF5A1F"/>
+          <circle cx="60" cy="98" r="8" fill="#FF5A1F"/>
+          <circle cx="26" cy="78" r="8" fill="#FF5A1F"/>
+          <circle cx="26" cy="42" r="8" fill="#FF5A1F"/>
+          <circle cx="60" cy="60" r="8" fill="#FF5A1F"/>
+        </svg>
+      </div>
+      <div class="t-text">
+        <div class="t-name">Legal <span>Authority</span> Lab</div>
+        <div class="t-sub" id="user-display">FL Bar AI Ethics Research · Authorized Use Only</div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="cpill">Knowledge: Apr 25, 2026</div>
+    </div>
+  </div>
+
+  <div class="wstrip">
+    <p>⚠ Research use only &nbsp;·&nbsp; No client names, case numbers, or identifying information &nbsp;·&nbsp; Redact before uploading &nbsp;·&nbsp; Not legal advice &nbsp;·&nbsp; Verify all authorities independently</p>
+  </div>
+
+  <div class="messages" id="messages">
+    <div class="welcome">
+      <div class="w-icon mol-icon">
+        <svg width="56" height="56" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="60" y1="22" x2="94" y2="42" stroke="#E8197A" stroke-width="3"/>
+          <line x1="94" y1="42" x2="94" y2="78" stroke="#E8197A" stroke-width="3"/>
+          <line x1="94" y1="78" x2="60" y2="98" stroke="#E8197A" stroke-width="3"/>
+          <line x1="60" y1="98" x2="26" y2="78" stroke="#E8197A" stroke-width="3"/>
+          <line x1="26" y1="78" x2="26" y2="42" stroke="#E8197A" stroke-width="3"/>
+          <line x1="26" y1="42" x2="60" y2="22" stroke="#E8197A" stroke-width="3"/>
+          <circle cx="60" cy="22" r="9" fill="#FF5A1F" stroke="#E8197A" stroke-width="2"/>
+          <circle cx="94" cy="42" r="9" fill="#FF5A1F" stroke="#E8197A" stroke-width="2"/>
+          <circle cx="94" cy="78" r="9" fill="#FF5A1F" stroke="#E8197A" stroke-width="2"/>
+          <circle cx="60" cy="98" r="9" fill="#FF5A1F" stroke="#E8197A" stroke-width="2"/>
+          <circle cx="26" cy="78" r="9" fill="#FF5A1F" stroke="#E8197A" stroke-width="2"/>
+          <circle cx="26" cy="42" r="9" fill="#FF5A1F" stroke="#E8197A" stroke-width="2"/>
+          <circle cx="60" cy="60" r="9" fill="#FF5A1F" stroke="#E8197A" stroke-width="2"/>
+        </svg>
+      </div>
+      <h2>Florida AI Ethics Research Assistant</h2>
+      <p>Ask any question about the ethical use of AI in Florida legal practice. Answers are drawn exclusively from the loaded knowledge base — Florida Bar rules, ethics opinions, court decisions, and sample certifications. Always verify cited authorities independently.</p>
+      <div class="chips">
+        <div class="chip" onclick="sendChip(this)">Do I need to disclose AI use to a Florida court?</div>
+        <div class="chip" onclick="sendChip(this)">Does using AI waive attorney-client privilege?</div>
+        <div class="chip" onclick="sendChip(this)">What does Rule 4-1.6 say about AI tools?</div>
+        <div class="chip" onclick="sendChip(this)">What AI certifications do Florida courts require?</div>
+        <div class="chip" onclick="sendChip(this)">Can I use ChatGPT for client work in Florida?</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="input-area">
+    <div class="input-row">
+      <textarea id="user-input" rows="1" placeholder="Ask a Florida Bar AI ethics question…" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+      <button class="send-btn" id="send-btn" onclick="sendMessage()">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      </button>
+    </div>
+    <p class="input-hint">Do not enter client names or identifying information &nbsp;·&nbsp; Not legal advice &nbsp;·&nbsp; Verify all authorities independently</p>
+  </div>
+</div>
+
+<!-- API KEY MODAL -->
+<div id="key-modal">
+  <div class="key-card">
+    <h2>Enter Anthropic API Key</h2>
+    <p>This tool uses the Anthropic API to answer your questions. Your API key is stored only in your browser's session memory — never saved to any server, never shared with other users, and automatically cleared when you close this tab.</p>
+    <p>Get an API key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a>. Usage is billed to your account at standard Anthropic API rates.</p>
+    <input type="password" id="api-key-input" placeholder="sk-ant-api03-…" />
+    <button class="key-save-btn" onclick="saveApiKey()">Save Key &amp; Continue</button>
+    <p class="key-note">Key stored in sessionStorage only — automatically cleared when this tab closes.</p>
+  </div>
+</div>
+
+<script>
+const SYSTEM_PROMPT = "You are the Florida Bar AI Ethics Research Assistant for Legal Authority Lab \u2014 AI built for law firms, powered by real lawyers.\n\nYOUR SOLE PURPOSE: Provide neutral, thorough, and well-reasoned ethics assessments about the use of artificial intelligence in Florida legal practice. You are not an advocate. You are an ethics analyst.\n\nCRITICAL OPERATING RULES:\n- Answer ONLY from the knowledge base below. Do NOT supplement with general training knowledge.\n- Your knowledge base is current as of April 25, 2026. Always tell users to verify current authorities independently before relying on them.\n- You do not provide legal advice \u2014 informational research only.\n- You do not create an attorney-client relationship.\n- If asked to analyze client-specific facts, decline and remind user not to enter client information.\n- If a question is outside FL Bar AI ethics, politely decline and redirect.\n\nRESPONSE FORMAT for substantive ethics questions:\n**Issue** \u2014 The ethics question raised\n**Applicable Rules & Authorities** \u2014 Specific rules, opinions, cases from the knowledge base below\n**Analysis \u2014 Arguments for Permissibility** \u2014 Good-faith case that conduct is acceptable\n**Analysis \u2014 Arguments for Concern** \u2014 Good-faith case that conduct raises ethics issues\n**Risk Level** \u2014 Low / Moderate / High / Clear Violation\n**Recommended Action** \u2014 Specific actionable steps\n**Open Questions** \u2014 Unsettled areas or pending guidance\n\nTONE: Neutral. Plain language. Direct about clear violations. Balanced on unsettled issues. Always cite specific authority from this knowledge base. Remind users at end of each response to verify all cited authorities independently.\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nKNOWLEDGE BASE \u2014 COMPLETE CONTENT OF ALL PROJECT FILES\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nSOURCE 1: FLORIDA BAR RULE 4-1.6 \u2014 CONFIDENTIALITY OF INFORMATION\n(R. Regul. FL. Bar 4-1.6, as amended through February 16, 2026)\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\nFULL TEXT:\n(a) Consent Required to Reveal Information. A lawyer must not reveal information relating to a client's representation except as stated in subdivisions (b), (c), and (d), unless the client gives informed consent.\n\n(b) When Lawyer Must Reveal Information. A lawyer must reveal confidential information to the extent the lawyer reasonably believes necessary to:\n(1) prevent a client from committing a crime; or\n(2) prevent death or substantial bodily harm.\n\n(c) When Lawyer May Reveal Information. A lawyer may reveal confidential information to the extent the lawyer reasonably believes necessary to:\n(1) serve the client's interest unless it is information the client specifically requires not to be disclosed;\n(2) establish a claim or defense on the lawyer's behalf in a controversy between the lawyer and client;\n(3) establish a defense to a criminal charge or civil claim against the lawyer based on conduct in which the client was involved;\n(4) respond to allegations in any proceeding concerning the lawyer's representation of the client;\n(5) comply with the Rules Regulating The Florida Bar;\n(6) detect and resolve conflicts of interest between lawyers in different firms arising from the lawyer's change of employment or from changes in the composition or ownership of a firm, but only if the revealed information would not compromise the attorney-client privilege or otherwise prejudice the client; or\n(7) respond to specific allegations published via the internet by a former client (e.g. a negative online review) that the lawyer has engaged in criminal conduct punishable by law.\n\n(d) Exhaustion of Appellate Remedies. When required by a tribunal to reveal confidential information, a lawyer may first exhaust all appellate remedies.\n\n(e) Inadvertent Disclosure of Information. A lawyer must make reasonable efforts to prevent the inadvertent or unauthorized disclosure of, or unauthorized access to, information relating to the client's representation.\n\n(f) Limitation on Amount of Disclosure. When disclosure is mandated or permitted, the lawyer must disclose no more information than is required.\n\nHistory: Last amended August 29, 2024, effective 10/28/2024 (SC2024-0032).\n\nKEY COMMENT ON AI (added 2024): \"Paragraph (e) requires a lawyer to act competently to safeguard information relating to the representation of a client against unauthorized access by third parties and against inadvertent or unauthorized disclosure by the lawyer or other persons who are participating in the representation of the client or who are subject to the lawyer's supervision. For example, a lawyer should be aware that generative artificial intelligence may create risks to the lawyer's duty of confidentiality. The unauthorized access to, or the inadvertent or unauthorized disclosure of, information relating to the representation of a client does not constitute a violation of paragraph (e) if the lawyer has made reasonable efforts to prevent the access or disclosure. Factors to be considered in determining the reasonableness of the lawyer's efforts include, but are not limited to, the sensitivity of the information, the likelihood of disclosure if additional safeguards are not employed, the cost of employing additional safeguards, the difficulty of implementing the safeguards, and the extent to which the safeguards adversely affect the lawyer's ability to represent clients.\"\n\nSIGNIFICANCE: This is the primary Florida confidentiality rule governing AI use. The 2024 amendment expressly identifies generative AI as a confidentiality risk. The standard is reasonableness, not absolute prohibition. Unauthorized disclosure does not violate the rule if the lawyer made reasonable efforts to prevent it.\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nSOURCE 2: FLORIDA BAR ETHICS OPINION 24-1 (January 19, 2024)\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\nIssued by: Florida Bar Board Review Committee on Professional Ethics; unanimously approved by the Board of Governors\nBinding Effect: Non-binding advisory guidance. Authoritative guidance used in disciplinary proceedings.\n\nSUMMARY HOLDING: Lawyers may use generative artificial intelligence in the practice of law but must protect the confidentiality of client information, provide accurate and competent services, avoid improper billing practices, and comply with applicable restrictions on lawyer advertising. Lawyers must ensure that the confidentiality of client information is protected when using generative AI by researching the program's policies on data retention, data sharing, and self-learning. Lawyers remain responsible for their work product and professional judgment and must develop policies and practices to verify that the use of generative AI is consistent with the lawyer's ethical obligations.\n\nKEY HOLDINGS BY CATEGORY:\n\nCONFIDENTIALITY (Rule 4-1.6):\n- Absent the client's informed consent or an exception permitting disclosure, a lawyer may not reveal client information.\n- It is RECOMMENDED that a lawyer obtain the affected client's INFORMED CONSENT prior to utilizing a third-party generative AI program if the utilization would involve the disclosure of any confidential information.\n- When using a third-party generative AI program, lawyers must sufficiently understand the technology to satisfy their ethical obligations. For generative AI, this specifically includes knowledge of whether the program is \"self-learning.\" A generative AI that is \"self-learning\" continues to develop its responses as it receives additional inputs and adds those inputs to its existing parameters. Use of a \"self-learning\" generative AI raises the possibility that a client's information may be stored within the program and revealed in response to future queries by other users.\n- Three categories of AI providers: (1) open/free providers that typically have no obligation to keep user-provided information confidential and may train on inputs; (2) paid commercial providers with contractual terms that may include data protection commitments; (3) law-firm-specific enterprise deployments with negotiated data processing agreements. Lawyers must investigate these distinctions before use.\n\nCOMPETENCE AND VERIFICATION (Rule 4-1.1):\n- Lawyers remain responsible for their work product and professional judgment.\n- AI use is analogous to use of non-lawyer assistants under Rules 4-5.1 and 4-5.3 \u2014 the lawyer must supervise, review, and ultimately own the work product.\n- A lawyer should not instruct or encourage a client to rely solely on the \"work product\" of generative AI without the lawyer's own personal review.\n- All AI-generated content must be verified for accuracy, including any legal citations and factual assertions.\n\nBILLING PRACTICES (Rule 4-1.5):\n- If a lawyer uses generative AI and the use saves time that otherwise would have been spent on the matter, the lawyer may NOT ethically charge the client for the time saved.\n- AI subscription costs should be accounted for as overhead unless attributable to a specific client matter.\n- A lawyer may charge a client for the reasonable time spent on case-specific research and drafting when using generative AI, but may not engage in double-billing.\n\nADVERTISING AND CHATBOTS (Rules 4-7):\n- A lawyer should be wary of utilizing an overly welcoming generative AI chatbot that may provide legal advice, fail to immediately identify itself as a chatbot, or fail to include clear disclaimers limiting the lawyer's obligations.\n- Chatbots that interact with potential clients must: (1) identify as non-human; (2) include appropriate disclaimers; (3) be monitored to prevent inadvertent creation of attorney-client relationships.\n- Subchapter 4-7 of the Florida Bar Rules governing lawyer advertising applies to AI-driven client communications.\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nSOURCE 3: FLORIDA SUPREME COURT RULE AMENDMENTS (2024)\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\nIn re Amendments to Rules Regulating the Florida Bar \u2014 Chapter 4, No. SC2024-0032, 393 So. 3d 137 (Fla. 2024)\nEffective Date: August 29, 2024\n\nThe Florida Supreme Court amended the Comments to Rules 4-1.1 (Competence), 4-1.6 (Confidentiality), 4-5.1 (Supervisory Responsibilities), and 4-5.3 (Responsibilities Regarding Nonlawyer Assistants) to add explicit warnings about the necessity to take care when using generative artificial intelligence.\n\nThese comment amendments establish that: (1) competence includes understanding AI tools used in practice; (2) confidentiality obligations apply to AI tool use; (3) supervising lawyers are responsible for AI-assisted work product generated by those they supervise; (4) lawyers must supervise nonlawyers including as to their use of AI.\n\nReferenced in virtually all 2026 Florida circuit administrative orders as foundational authority.\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nSOURCE 4: FLORIDA BAR ETHICS OPINION 12-3 (January 25, 2013)\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\nCloud computing opinion \u2014 directly applicable to AI vendor vetting.\n\nKEY HOLDINGS:\n- Lawyers may use cloud computing if they take reasonable precautions to ensure that confidentiality of client information is maintained, that the service provider maintains adequate security, and that the lawyer has adequate access to the information stored remotely.\n- The lawyer should research the service provider to be used.\n- A lawyer has the obligation to ensure that confidentiality of information is maintained by nonlawyers under the lawyer's supervision, including nonlawyers that are third parties used by the lawyer in the provision of legal services.\n- Lawyers have an obligation to remain current not only in developments in the law, but also developments in technology that affect the practice of law. Florida Ethics Opinion 10-2.\n- Lawyers who use cloud computing therefore have an ethical obligation to understand the technology they are using and how it potentially impacts confidentiality of information relating to client matters.\n\nAPPLICATION TO AI: This opinion's vendor-vetting framework applies directly to AI tool selection. Lawyers must research AI providers' data retention, sharing, security, and self-learning policies before use.\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nSOURCE 5: FLORIDA RULE 4-5.7 \u2014 RESPONSIBILITIES REGARDING NONLEGAL SERVICES\n(R. Regul. FL. Bar 4-5.7, as amended through February 16, 2026)\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\n(a) Services Not Distinct From Legal Services. A lawyer who provides nonlegal services to a recipient that are not distinct from legal services provided to that recipient is subject to the Rules Regulating The Florida Bar with respect to the provision of both legal and nonlegal services.\n\n(b) Services Distinct From Legal Services. A lawyer who provides nonlegal services to a recipient that are distinct from any legal services provided to the recipient is subject to the Rules Regulating The Florida Bar with respect to the nonlegal services if the lawyer knows or reasonably should know that the recipient might believe that the recipient is receiving the protection of a client-lawyer relationship.\n\n(c) Services by Nonlegal Entity. A lawyer who is an owner, controlling party, employee, agent, or otherwise is affiliated with an entity providing nonlegal services to a recipient is subject to the Rules Regulating The Florida Bar with respect to the nonlegal services if the lawyer knows or reasonably should know that the recipient might believe that the recipient is receiving the protection of a client-lawyer relationship.\n\n(d) Effect of Disclosure of Nature of Service. Subdivision (b) or (c) does not apply if the lawyer makes reasonable efforts to avoid any misunderstanding by the recipient receiving nonlegal services. Those efforts must include advising the recipient, preferably in writing, that the services are not legal services and that the protection of a client-lawyer relationship does not exist.\n\nSIGNIFICANCE FOR AI: When a lawyer deploys an AI chatbot or tool that interacts with clients or prospective clients, Rule 4-5.7 may apply if the recipient might believe they are receiving the protection of a client-lawyer relationship. Written disclaimers are required to avoid this.\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nSOURCE 6: FLORIDA RULE 4-7.13 \u2014 DECEPTIVE AND INHERENTLY MISLEADING ADVERTISEMENTS\n(R. Regul. FL. Bar 4-7.13, as amended through February 16, 2026)\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\nA lawyer may not engage in deceptive or inherently misleading advertising.\n\n(a) An advertisement is deceptive or inherently misleading if it:\n(1) contains a material statement that is factually or legally inaccurate;\n(2) omits information that is necessary to prevent the information supplied from being misleading; or\n(3) implies the existence of a material nonexistent fact.\n\n(b) Examples include advertisements that contain:\n(1) statements that a prospective client can reasonably interpret as a prediction or guaranty of success or specific results;\n(2) references to past results, unless objectively verifiable;\n(3) comparisons of lawyers or characterizations of skills, experience, or record, unless objectively verifiable;\n(5) a voice or image creating the erroneous impression that the person shown is the advertising lawyer, unless clear disclaimer is included;\n(9) testimonials: (A) regarding matters on which the person is unqualified to evaluate; (B) that is not the actual experience of the person; (C) that does not represent what clients generally experience; (D) written or drafted by the lawyer; (E) given in exchange for something of value; or (F) without a disclaimer that the prospective client may not obtain the same results;\n(10) a statement that The Florida Bar has approved an advertisement or a lawyer;\n(11) a judicial, executive, or legislative branch title, unless accompanied by clear modifiers placed after the person's name.\n\nHistory: Last amended June 22, 2023, effective 8/21/2023 (SC22-1294).\n\nSIGNIFICANCE FOR AI: AI-generated advertising content must comply with all provisions of Rule 4-7.13. AI chatbots interacting with prospective clients constitute advertising subject to this rule. A chatbot that implies guarantees of success or fails to identify as non-human violates this rule.\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nSOURCE 7: FLORIDA JUDICIAL AI ORDERS \u2014 COMPLETE TEXT\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\nA. 11TH JUDICIAL CIRCUIT \u2014 MIAMI-DADE COUNTY\nAdministrative Order No. 26-04 | Chief Judge Ariana Fajardo Orshan | January 15, 2026\nCoverage: All Circuit and County Courts of the Eleventh Judicial Circuit (Miami-Dade County)\nEffective: Immediately\n\nKEY REQUIREMENTS:\n1. MANDATORY DISCLOSURE: Any attorney or self-represented litigant who uses any generative AI tool in the preparation of a pleading, motion, memorandum, response, proposed order, or other court record MUST disclose such use on the face of the filing.\n\n2. REQUIRED CERTIFICATION LANGUAGE: \"Generative artificial intelligence was used in the preparation of this filing. The undersigned certifies that all factual assertions, legal authority, and citations have been independently reviewed and verified for accuracy and accepts full responsibility for the contents of this filing.\"\n\n3. DUTY OF CANDOR: AI use does not relieve any attorney or self-represented litigant of the duty of candor to the tribunal; the obligation to independently verify all factual assertions and legal authority; or compliance with applicable statutes, procedural rules, and the Rules Regulating the Florida Bar. All AI-generated content shall be deemed the work product of the filing party.\n\n4. PROHIBITED CONDUCT: Submission of fictitious, fabricated, or hallucinated legal authority, statutes, quotations, or facts; reliance on AI-generated citations without independent verification; misrepresentation of AI-generated content as independently researched authority; or failure to disclose the use of AI.\n\n5. SANCTIONS: Striking the filing; denial of the requested relief; monetary sanctions; contempt proceedings; referral to The Florida Bar; any other sanction deemed appropriate.\n\nB. 17TH JUDICIAL CIRCUIT \u2014 BROWARD COUNTY\nAdministrative Order 2026-03-Gen | Chief Judge Carol-Lisa Phillips | January 26, 2026\nCoverage: All courts of the Seventeenth Judicial Circuit (Broward County, Fort Lauderdale)\nEffective: Immediately\n\nKEY REQUIREMENTS:\n1. AI USE PERMITTED: AI may be used to assist in preparation, researching, drafting pleadings, drafting documents, filing documents, and discovery. All information generated by AI must have appropriate human oversight including checking citations, verifying factual claims, and analyzing conclusions.\n\n2. SPECIFIC TOOL IDENTIFICATION REQUIRED: When AI has been used, the document shall identify the SPECIFIC TOOL used. This is unique \u2014 Broward requires naming the specific AI tool.\n\n3. ATTORNEY RESPONSIBILITY: An attorney may use AI technologies but only to the extent that the lawyer can reasonably guarantee compliance with the lawyer's ethical obligations. Attorneys shall be fully responsible for their work product and must comply with Florida law and the Rules Regulating the Florida Bar, including Rule 4-1.1 (Competence), Rule 4-1.6 (Confidentiality), Rule 4-3.3 (Candor to Tribunal), Rule 4-5.1 (Supervision), and Rule 4-5.3 (Nonlawyer Supervision).\n\n4. DISCOVERY COVERED: Explicitly includes discovery requests.\n\n5. REQUIRED CERTIFICATION LANGUAGE: \"The undersigned hereby certifies that generative artificial intelligence was used to prepare this [TITLE OF DOCUMENT BEING FILED]. The undersigned has independently verified the accuracy of every citation to the law and/or the record, and the accuracy of any language drafted by generative artificial intelligence, including quotations, citations, paraphrased assertions, facts, and legal analysis.\"\n\n6. DEFINITION OF AI: Computer systems that imitate human intelligence. Examples listed include Harvey AI, Lexis+AI, AI.Law, Co-Counsel by Thomson Reuters, Westlaw drafting assistant, ChatGPT by OpenAI, Google Gemini, and Microsoft Copilot.\n\n7. SANCTIONS: Contempt; striking of pleadings or dismissal of actions; fines and/or imposition of attorney's fees; referral to The Florida Bar.\n\nC. 18TH JUDICIAL CIRCUIT \u2014 BREVARD & SEMINOLE COUNTIES\nAdministrative Order 26-10 | Chief Judge Melanie Chase | February 13, 2026\nCoverage: All Circuit and County Courts of the Eighteenth Judicial Circuit\nEffective: Immediately\n\nKEY REQUIREMENTS:\n1. MANDATORY DISCLOSURE: Any attorney or self-represented litigant who uses any generative AI tool in the preparation of a pleading, motion, memorandum, response, proposed order, or other court record must disclose such use on the face of the filing.\n\n2. REQUIRED CERTIFICATION LANGUAGE: \"Generative artificial intelligence was used in the preparation of this filing. The undersigned certifies that all factual assertions, legal authority, and citations have been independently reviewed and verified for accuracy, and accepts full responsibility for the contents of this filing.\"\n\n3. DUTY OF CANDOR: AI use does not relieve any attorney or self-represented litigant of the duty of candor to the tribunal; the obligation to independently verify all factual assertions and legal authority.\n\n4. PROHIBITED CONDUCT: Submission of fictitious, fabricated, or hallucinated legal authority; reliance on AI-generated citations without independent verification; misrepresentation of AI-generated content as independently researched authority; failure to disclose AI use.\n\n5. SANCTIONS: Striking the filing; denial of the requested relief; monetary sanctions; contempt proceedings; referral to The Florida Bar.\n\nD. 6TH JUDICIAL CIRCUIT \u2014 PINELLAS COUNTY \u2014 JUDGE BURGESS\nStanding Order on the Use of Artificial Intelligence in Legal Filings and Court Submissions\nHon. William H. Burgess, III, Circuit Judge, Family Court Division Section 22 | January 20, 2026\nCoverage: All matters before Section 22 of the Family Court Division, Pinellas County\nNOTE: Individual judge's standing order \u2014 not circuit-wide. Applies only to cases assigned to Judge Burgess.\n\nDEFINITIONS:\n- Artificial Intelligence (AI) Tool: Any computer software, platform, or system that uses machine learning, large language models, or algorithmic generation to create text, images, or other content based on user prompts. Examples: ChatGPT, Claude, Gemini, Copilot, Westlaw AI, Lexis+ AI.\n- Reasonable Inquiry: A good-faith effort including personally reading cited cases, verifying statutory references, confirming factual assertions. RELIANCE ON AI IS NOT CONSIDERED REASONABLE INQUIRY.\n- Traditional Legal Research Methods: Reviewing primary legal authority directly using Westlaw, LexisNexis, Fastcase, Caselaw Access Project, Google Scholar, official statutes, or similar resources.\n- NOTE: AI proofreading tools (spelling, grammar, punctuation, word choice) are EXCLUDED from this order's requirements.\n\nDISCLOSURE REQUIREMENTS:\n- Mandatory AI disclosure at end of filing OR via standalone Attachment 1 form.\n- Disclosure must: (1) identify each AI tool used by NAME; (2) describe the manner in which the tool was used; (3) state whether AI generated any text appearing directly in the filed document; (4) affirm that no confidential or privileged information was inputted into the AI tool.\n- NO-USE STATEMENT REQUIRED: If no AI was used, must include: \"I certify that no generative artificial intelligence tool was used in the preparation of this filing or submission, or in conducting research for it.\" (This is unique to Judge Burgess's order \u2014 other circuits do not explicitly require a no-use statement.)\n\nCERTIFICATION REQUIREMENTS (two separate certifications required when AI used):\n1. BASE CERTIFICATION: \"I certify that I have personally reviewed this filing or submission, verified the accuracy of all legal authorities and factual assertions through traditional methods, and conducted a reasonable inquiry into the truth and accuracy of all statements herein.\"\n\n2. ADDITIONAL AI CERTIFICATION: \"I further certify that any text generated or suggested by an artificial intelligence tool has been independently reviewed, confirmed for accuracy and completeness, and corrected as necessary. I understand that reliance on an AI tool does not constitute reasonable inquiry.\"\n\nPROHIBITED USES OF AI:\n- Generate or bolster ad hominem attacks, inflammatory rhetoric, or disparaging statements about any party, witness, or judicial officer\n- Fabricate legal authority, facts, or evidence\n- Prepare repetitive or voluminous filings intended to harass, delay, cause unnecessary expense, or disrupt proceedings\n- Generate medical, psychological, or expert-like conclusions without a qualified human source\n\nDUTY TO SUPPLEMENT OR CORRECT: If a party discovers that their filing has inadvertently included AI-generated content, the party must promptly file a Supplemental Notice identifying the inadvertently included material. If a party discovers that their filing includes inaccurate, false, fabricated, or misleading information from AI, must promptly file a Notice of Correction.\n\nSANCTIONS: Evidentiary presumptions against the filer; adverse inferences; striking the filing; requiring corrected version; monetary fines or costs; contempt; Bar referral; in extreme cases, dismissing claims or defenses, or entering default judgments.\n\nE. OTHER FLORIDA CIRCUITS \u2014 STATUS AS OF APRIL 2026:\nAs of April 2026, confirmed AI-specific administrative orders have been issued in the 6th (Judge Burgess only), 11th (Miami-Dade), 17th (Broward), and 18th (Brevard/Seminole) circuits.\n\nNO AI-SPECIFIC ORDERS IDENTIFIED in: 1st, 2nd, 3rd, 4th, 5th, 7th, 8th, 9th, 10th, 12th, 13th, 14th, 15th, 16th, 19th, 20th Circuits.\n\nPRACTICE ALERT: Absence of a circuit-wide order does NOT mean AI use is unregulated. Florida Bar Ethics Opinion 24-1 and the Rules Regulating the Florida Bar apply statewide regardless. Individual judges in any circuit may have their own divisional standing orders not published online. Check individual judge/division pages before filing.\n\nTREND: The trend as of early 2026 is strongly toward additional circuits adopting orders modeled on the 11th and 18th Circuit language.\n\nF. FLORIDA FEDERAL COURTS \u2014 STATUS AS OF APRIL 2026:\nCRITICAL NOTE: As of April 2026, NONE of Florida's three federal district courts have issued a district-wide AI standing order or local rule.\n\nSouthern District of Florida (S.D. Fla.) \u2014 Miami, Fort Lauderdale, West Palm Beach: No district-wide AI order. Has been one of the most active federal courts nationally in sanctioning attorneys for AI-related misconduct. Notable: ByoPlanet International LLC v. O'Shea \u2014 attorney sanctioned, all four federal matters dismissed, required to attach sanctions order to every future filing for two years, referred to Florida Bar. Governing framework: Rule 11 FRCP + individual judge standing orders.\n\nMiddle District of Florida (M.D. Fla.) \u2014 No district-wide AI policy. Check individual judge standing orders.\n\nNorthern District of Florida (N.D. Fla.) \u2014 No district-wide AI policy. Check individual judge standing orders.\n\nEleventh Circuit Court of Appeals \u2014 No circuit-wide AI policy as of April 2026.\n\nPRACTICE RECOMMENDATION FOR ALL FLORIDA FEDERAL COURTS: Check assigned judge's standing orders before every filing. When in doubt, include AI certification. Failure to verify citations is sanctionable under Rule 11 regardless of whether a specific AI order exists.\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nSOURCE 8: UNITED STATES v. HEPPNER \u2014 COMPLETE ANALYSIS\n(No. 25-cr-00503-JSR, S.D.N.Y., Feb. 10 bench ruling, Feb. 17 written opinion, 2026)\nJudge Jed S. Rakoff, Southern District of New York\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\nFACTS: Bradley Heppner, former chair of a publicly traded company (Beneficient Company Group), was charged with securities fraud, wire fraud, conspiracy, and falsifying corporate records. After receiving a grand jury subpoena and retaining counsel, Heppner used the CONSUMER (non-enterprise) version of Anthropic's Claude to research legal issues and generate reports outlining his defense strategy. He did this ON HIS OWN INITIATIVE, without counsel's direction. He later shared the AI-generated documents with his attorneys. FBI agents seized the devices containing these documents pursuant to a search warrant. Heppner's counsel asserted attorney-client privilege and work product protection over approximately 31 AI-generated documents.\n\nRULING: Judge Rakoff held that neither the attorney-client privilege nor the work product doctrine protected the AI-generated documents.\n\nATTORNEY-CLIENT PRIVILEGE ANALYSIS:\nThe privilege requires: (1) communications between a client and attorney; (2) intended to be and in fact kept confidential; (3) for the purpose of obtaining or providing legal advice. ALL THREE ELEMENTS FAILED:\n\nElement 1 \u2014 No attorney-client communication: \"Heppner does not, and indeed could not, maintain that [the AI tool] is an attorney.\" \"In the absence of an attorney-client relationship, the discussion of legal issues between two non-attorneys is not protected by attorney-client privilege.\" All \"recognized privileges\" require \"a trusting human relationship\" such as that with \"a licensed professional who owes fiduciary duties and is subject to discipline.\" No such relationship can exist between a user and an AI platform.\n\nElement 2 \u2014 No confidentiality: Anthropic's privacy policy explicitly reserves the right to collect both user \"inputs\" and tool \"outputs,\" use such data to \"train\" the tool, and disclose data to various \"third parties,\" including \"governmental regulatory authorities.\" The policy put Heppner on notice he had no \"reasonable expectation of confidentiality.\" The court concluded Heppner \"could have had no reasonable expectation of confidentiality in his communications with Claude.\"\n\nElement 3 \u2014 Not for purpose of obtaining legal advice: Claude expressly disclaimed providing legal advice. When asked, the system responded: \"I'm not a lawyer and can't provide formal legal advice or recommendations\" and advised users to consult a qualified attorney. Heppner did not communicate with Claude for the purpose of obtaining legal advice because Claude disclaimed that capacity.\n\nADDITIONAL HOLDING: Non-privileged communications are not \"alchemically changed into privileged ones upon being shared with counsel.\" Later sharing AI outputs with an attorney does not retroactively confer privilege.\n\nWORK PRODUCT DOCTRINE ANALYSIS:\nWork product protects materials prepared by or at the direction of counsel in anticipation of litigation.\n\nThe documents failed because: (1) They were not prepared \"by or at the behest of counsel\" \u2014 Heppner acted on his own volition; (2) They did not reflect defense counsel's strategy when created.\n\nIMPORTANT DICTUM: \"Had counsel directed Heppner to use Claude, Claude might arguably be said to have functioned in a manner akin to a highly trained professional who may act as a lawyer's agent within the protection of the attorney-client privilege.\" (The Kovel doctrine potentially applies if counsel directs AI use.)\n\nKEY LIMITATION OF THE HOLDING: \"Judge Rakoff's opinion applied to a 'user communicating with a publicly available AI platform' operating under terms that permitted data retention, training, and disclosure to third parties.\" The court DID NOT address the use of generative AI within a closed or enterprise environment that contractually restricts third-party retention, training, and review of inputs and outputs.\n\nBROADER PRINCIPLE: Confidentiality may fail AT INCEPTION \u2014 not just through later waiver. If a platform's terms allow provider use beyond delivering the requested service (training, analytics, affiliate sharing, extended retention), the user may be acting inconsistently with the intent to preserve confidentiality at the moment of disclosure. The issue is not a subsequent waiver. It is that the platform itself may defeat confidentiality at inception.\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nSOURCE 9: WARNER v. GILBARCO \u2014 THE CIVIL COUNTERWEIGHT\n(E.D. Mich., Magistrate Judge Anthony P. Patti, decided approximately February 2026)\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\nFACTS: A pro se plaintiff had used ChatGPT to prepare legal briefs in anticipation of litigation. Opposing counsel moved to compel production of all AI-related materials.\n\nRULING: Motion to compel DENIED. The materials were protected as work product.\n\nKEY HOLDINGS:\n- Using generative AI tools like ChatGPT does NOT waive work-product protection because waiver requires disclosure \"to an adversary or in a way likely to get in an adversary's hand.\"\n- \"ChatGPT (and other generative AI programs) are tools, not persons, even if they may have administrators somewhere in the background.\"\n- An individual's AI inputs and software-reformatted outputs reflect protected \"mental impressions\" and internal drafting processes, which are shielded from discovery.\n- The opposing party's attempt to obtain AI-usage data was an irrelevant and disproportionate \"fishing expedition.\"\n- The court warned that if endorsed, \"would nullify work-product protection in nearly every modern drafting environment, a result no court has endorsed.\"\n\nWHY HEPPNER AND WARNER DIFFER: They are not opposite holdings. In Heppner, a represented defendant used a public AI platform on his own initiative through a service whose terms disclaimed confidentiality, and the materials were seized by the FBI pursuant to a search warrant. In Warner, a pro se litigant used AI as part of her own litigation preparation, and opposing counsel tried to compel production through a discovery request. The procedural context matters enormously.\n\nIMPLICATION FOR LAWYERS USING AI: \"If a pro se party's use of ChatGPT to prepare litigation materials qualified for work product protection in a civil case, the same logic should apply \u2014 and arguably applies even more strongly \u2014 when a lawyer uses AI tools. A lawyer directing the use of an AI tool as part of legal representation has more deliberation and control than a pro se litigant.\"\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nSOURCE 10: CONCORD MUSIC GROUP v. ANTHROPIC PBC\n(No. 24-cv-03811-EKL, N.D. Cal., Magistrate Judge Susan Van Keulen, Dec. 18, 2025)\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\nAnthropic sought production of certain AI prompts and outputs from plaintiffs. Plaintiffs disclosed all AI prompts and outputs on which they relied in developing their lawsuit but refused to disclose additional prompts and outputs. Court found additional prompts and outputs were WORK PRODUCT and declined to order production.\n\n\"ChatGPT prompts were queries crafted by counsel and contain counsel's mental impressions and opinions about how to interrogate ChatGPT and were thus opinion, not fact, work product.\" (quoting Tremblay v. OpenAI, Inc.)\n\nSIGNIFICANCE: AI prompts created by counsel in anticipation of litigation may qualify as opinion work product.\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nSOURCE 11: FLORIDA APPELLATE DECISIONS ON AI\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\nRodriguez v. Rodriguez, No. 6D2025-3086 (Fla. 6th DCA Apr. 10, 2026):\n\"[A]lthough AI is a relatively new technology, and although AI may have appropriate uses in the legal field, there is simply no excuse for pro se litigants or attorneys to file briefs, motions, and other filings in Florida's appellate courts that cite to cases without first performing the necessary and simple steps of (1) cite-checking the cases to ensure they actually exist and (2) cite-checking the cases to ensure they actually represent the legal propositions asserted\"; that \"[t]his is true regardless of whether such filings are prepared with or without the assistance of AI.\"\n\nRussell v. Mells, No. 2D2024-1560 (Fla. 2d DCA Dec. 10, 2025):\nFlorida Second DCA sanctioned attorney for AI-generated fabricated citations. Reinforces that fabricated citations or inaccurate propositions generated through AI remain the lawyer's responsibility, and misuse may trigger sanctions or referral to the Bar.\n\nTakefman v. Pickleball Club, LLC, 418 So. 3d 826, 827 (Fla. 3d DCA 2025), reh'g denied (Sept. 11, 2025):\nCited in multiple Florida circuit AI orders for the proposition that \"the Court should not have to parse case citations and parentheticals to discern whether cases exist.\"\n\nGutierrez v. Gutierrez, 399 So.3d 1185, 1189 (Fla. 3d DCA 2024):\nSelf-represented litigants must adhere to the same procedural rules as attorneys. Cited in 18th Circuit AI order.\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nSOURCE 12: KEY PRIVILEGE AND CONFIDENTIALITY PRINCIPLES \u2014 SYNTHESIZED FROM ALL PROJECT FILES\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\nTHE CENTRAL DISTINCTION \u2014 PUBLIC VS. ENTERPRISE AI TOOLS:\nThe controlling variable for privilege and confidentiality is NOT whether a tool is free or paid. It is whether the platform is public/consumer-facing or contractually confidential and secure.\n\nPUBLIC/CONSUMER-FACING TOOLS (e.g., free ChatGPT, consumer Claude, consumer Gemini):\n- Terms typically permit data collection, model training, and disclosure to third parties including government authorities\n- Using these tools may constitute disclosure to a third party\n- Attorney-client privilege is unlikely to attach to client information entered into these tools\n- Work product protection is weakened for independently created materials on these platforms\n- RISK: HIGH \u2014 akin to discussing legal strategy in a crowded public elevator (Heppner court metaphor)\n\nPAID CONSUMER SUBSCRIPTIONS:\n- Paying for a standard consumer subscription does NOT automatically solve the problem\n- The controlling variable is the platform's confidentiality architecture and contract terms, not price alone\n- \"Even paid AI subscriptions may fail to provide [sufficient protection]\"\n- Must review the actual terms of service and data policies, not assume payment equals protection\n\nENTERPRISE/FIRM-LICENSED TOOLS (e.g., Westlaw AI, LexisNexis AI, Harvey, firm-specific deployments with negotiated data processing agreements):\n- Typically include: contractual confidentiality, restrictions on retention, prohibitions on model training from customer data, limits on disclosure, data residency controls, SOC 2 compliance\n- These present \"materially stronger\" privilege arguments\n- Analogous to other third-party service providers like e-discovery vendors and cloud storage providers used under confidentiality agreements\n- NOTE: Contractual confidentiality protections alone do not automatically establish attorney-client privilege \u2014 must still satisfy all privilege elements\n\nCOUNSEL-DIRECTED AI USE:\n- If COUNSEL directs a client or non-lawyer to use an AI tool, the Kovel doctrine may potentially apply (agent of counsel)\n- Materials created under counsel's direction with a secure tool present the strongest privilege arguments\n- Document the direction in the prompt: \"I am doing this research at the direction of counsel for [X] litigation\"\n- Privilege logs should denote: basis for privilege, AI tool was used with expectation of confidentiality, communication reflects legal advice or work was done at direction of counsel\n\nDISCOVERY OF AI PROMPTS:\n- AI prompts may be discoverable as ESI under standard Rule 26(b)(1) relevance and proportionality analysis\n- Attorney prompts created in anticipation of litigation may qualify as opinion work product (Concord Music)\n- Client prompts created without attorney direction on public platforms are likely not protected (Heppner)\n- Using AI in litigation does not automatically subject all AI interactions to discovery \u2014 context matters\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nSOURCE 13: FLORIDA JUDICIAL POLICY MEMO \u2014 PRACTITIONER SUMMARY TABLE\n(FL_AI_Judicial_Policy_Memo_2026.docx \u2014 FMLG Internal Memo, April 2026)\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\nFLORIDA COURT DISCLOSURE REQUIREMENTS \u2014 QUICK REFERENCE:\n\n11th Circuit (Miami-Dade) \u2014 Admin. Order No. 26-04:\n- Disclosure Required: YES \u2014 on face of any filing where AI was used\n- Certification Required: YES \u2014 verbatim or substantially equivalent language\n- Specific Tool ID Required: No\n- Discovery Covered: Implicitly under \"other court records\"\n- No-Use Statement Required: Not explicitly\n- Pro Se Covered: YES\n\n17th Circuit (Broward) \u2014 Admin. Order 2026-03-Gen:\n- Disclosure Required: YES \u2014 on face of document; specific tool must be named\n- Certification Required: YES \u2014 specific verbatim language required\n- Specific Tool ID Required: YES \u2014 required to identify specific tool\n- Discovery Covered: YES \u2014 explicitly includes discovery requests\n- No-Use Statement Required: Not explicitly\n- Pro Se Covered: YES\n\n18th Circuit (Brevard/Seminole) \u2014 Admin. Order 26-10:\n- Disclosure Required: YES \u2014 on face of filing\n- Certification Required: YES \u2014 verbatim or substantially equivalent\n- Specific Tool ID Required: No\n- Discovery Covered: Implicitly\n- No-Use Statement Required: Not explicitly\n- Pro Se Covered: YES\n\n6th Circuit Section 22 \u2014 Judge Burgess Standing Order:\n- Disclosure Required: YES \u2014 at end of filing or via Attachment 1 form\n- Certification Required: YES \u2014 two separate certifications required when AI used\n- Specific Tool ID Required: YES \u2014 name and version required\n- Description of Use Required: YES \u2014 how the tool was used must be described\n- Confidentiality Affirmation Required: YES \u2014 must affirm no confidential info was inputted\n- Discovery Covered: YES \u2014 any summarizing of legal sources or facts\n- No-Use Statement Required: YES \u2014 explicitly required if no AI was used\n- AI Proofreading Excluded: YES \u2014 spelling/grammar tools excluded\n- Prohibited Uses Specified: YES\n- Duty to Correct: YES \u2014 must file Notice of Correction if error discovered post-filing\n- Pro Se Covered: YES\n\nFlorida Federal Courts (All Three Districts):\n- No district-wide rule in any Florida federal district as of April 2026\n- S.D. Fla. enforcement track record: Among the highest nationally\n- No tolerance for hallucinated citations regardless of absence of standing order\n- Check each assigned judge's individual standing order page before filing\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nSOURCE 14: NATIONAL AI SANCTIONS CONTEXT\n(AI_Legal_Practice_Brief_2026.docx \u2014 April 2026)\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\nHALLUCINATION DATA:\n- As of early 2026, a global database maintained by researcher Damien Charlotin at HEC Paris has documented over 1,345 cases worldwide \u2014 324 in U.S. courts \u2014 where courts found or implied that a party relied on hallucinated AI content.\n- Stanford researchers found that state-of-the-art general-purpose AI models hallucinated between 58% and 88% of the time on legal research tasks.\n- Rate of documented incidents: approximately four to five new cases per day as of early 2026.\n\nKEY CASES:\n- Mata v. Avianca, Inc. (S.D.N.Y. 2023): Foundational AI sanctions case. New York lawyers submitted brief with multiple fabricated ChatGPT-generated case citations. Sanctions followed; Chief Justice Roberts identified hallucinations as genuine threat in annual report.\n- ByoPlanet International LLC v. O'Shea (S.D. Fla. 2025): Attorney sanctioned, all four federal matters dismissed, required to attach sanctions order to every future filing for two years, referred to Florida Bar.\n- Johnson v. Dunn (N.D. Ala. July 23, 2025): Three partners disqualified after discovery of hallucinated citations from large firm. Note: Court cited firm's EXISTING AI governance policies as meaningful mitigation, even though policies were violated.\n- Noland v. Land of the Free, L.P. (Cal. Ct. App. 2025): $10,000 sanction for 21 fabricated citations.\n\nCOMPETENCE OBLIGATION (ABA FORMAL OPINION 512, July 2024):\nABA established that lawyers using AI tools must understand both their capabilities and their shortcomings. Over 30 states have released AI-specific guidance.\n\nBILLING OBLIGATIONS:\n- Multiple state bar guidance documents: lawyers should charge clients only for time actually spent using AI, not time the task would have taken manually.\n- ABA Rule 1.5 prohibition on clearly excessive fees applies when AI reduces a task from ten hours to one but lawyer bills for ten.\n- Goldman Sachs estimated AI could reduce legal billing hours by 20-30%.\n\nSUPERVISION (Rules 5.1 and 5.3):\n- Supervising attorneys are accountable for AI-generated errors in work product they sign, regardless of personal knowledge of AI's involvement.\n- Emerging standard: auditable pre-filing checklists documenting hallucination verification before any pleading is signed.\n- Johnson v. Dunn: Existence of firm AI governance policy provided meaningful mitigation even when violated.\n\nNATIONAL TRENDS AS OF APRIL 2026:\n- Approximately 30% of active federal judges nationally have issued individual AI standing orders.\n- Courts are increasingly moving toward mandatory AI certification as a condition of filing.\n- A formal proposal to amend Federal Rule of Civil Procedure 11 to address AI was pending before the Advisory Committee on Civil Rules (Rules Suggestion 25-CV-S).\n- 23 states have issued formal AI ethics guidance.\n- 12 states introduced AI-related ethics legislation in 2024-2025.\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nSOURCE 15: FLORIDA RULE 4-5.7 APPLICATION TO AI CHATBOTS\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\nWhen a lawyer deploys an AI chatbot for client intake, marketing, or service delivery:\n- If the services are not distinct from legal services, all Florida Bar Rules apply to both legal and nonlegal services.\n- If distinct from legal services but there is a risk the recipient might believe they are receiving the protection of a client-lawyer relationship, all Florida Bar Rules apply unless the lawyer makes reasonable written disclosure.\n- Written disclosure must specify: the services are not legal services and the protection of a client-lawyer relationship does not exist.\n\nPRACTICAL REQUIREMENT: Any AI chatbot deployed by a Florida lawyer that interacts with potential or existing clients must:\n1. Clearly identify itself as non-human (Fla. Bar Ethics Op. 24-1)\n2. Include disclaimers that it does not provide legal advice\n3. Include written disclosure that services are not legal services if not distinct from legal services (Rule 4-5.7(d))\n4. Be monitored by supervising attorney (Rule 4-5.3)\n5. Comply with advertising rules (Rule 4-7.13)\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nSOURCE 16: PRACTICAL RISK FRAMEWORK \u2014 SYNTHESIZED FROM ALL SOURCES\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\nFLORIDA LAWYER AI COMPLIANCE CHECKLIST:\n\nBEFORE USING ANY AI TOOL:\n1. Research the tool's data retention, sharing, self-learning, and disclosure policies (Fla. Bar Ethics Op. 24-1)\n2. Determine if the tool is consumer-grade or enterprise-grade (Heppner distinction)\n3. Assess whether client information will be entered; if so, evaluate whether informed consent is required\n4. Document your vendor review in the firm's AI policy file (Fla. Bar Ethics Op. 12-3 framework)\n\nWHEN USING AI FOR COURT FILINGS:\n5. Check whether your specific circuit has an AI order and its exact requirements\n6. Check your specific judge's individual standing order even if no circuit-wide rule exists\n7. Independently verify every legal citation against primary sources \u2014 never rely on AI citation output\n8. Independently verify every factual assertion\n9. Include required disclosure certification on face of filing\n10. Identify the specific AI tool by name if filing in 17th Circuit (Broward) or before Judge Burgess\n\nBILLING:\n11. Do not bill for time saved by AI\n12. Do not double-bill\n13. AI subscription costs are overhead unless attributable to a specific matter\n\nSUPERVISION:\n14. Review all AI outputs before reliance or filing (Rules 4-5.1, 4-5.3)\n15. Train staff on AI use policies \u2014 supervisory responsibility for staff AI use rests on supervising attorney\n\nCHATBOTS:\n16. Ensure chatbot identifies as non-human\n17. Include disclaimers that it does not provide legal advice\n18. Monitor chatbot interactions\n19. Comply with Rule 4-7.13 advertising rules for all AI-generated client-facing content\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nEND OF KNOWLEDGE BASE\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\nREMINDER: You answer ONLY from the knowledge base above. Do not supplement with general training knowledge. When a question falls outside the knowledge base content, say so explicitly and recommend the user contact The Florida Bar Ethics Hotline at (800) 235-8619 or check current authority directly.\n";
+let history = [];
+let apiKey = 'proxy'; // Key is handled server-side
+
+// Checkboxes unlock button
+document.querySelectorAll('.ack-check').forEach(c => c.addEventListener('change', () => {
+  const all = [...document.querySelectorAll('.ack-check')].every(x => x.checked);
+  document.getElementById('enter-btn').classList.toggle('ready', all);
+}));
+
+function enterTool() {
+  document.getElementById('consent-screen').style.display = 'none';
+  document.getElementById('chat-screen').style.display = 'flex';
+  // Show user name in topbar
+  try {
+    const user = JSON.parse(sessionStorage.getItem('lal_user') || '{}');
+    if (user.name) {
+      document.getElementById('user-display').textContent = user.name + ' · Bar #' + user.barNumber;
+    }
+  } catch(e) {}
+}
+
+// API key handled server-side via proxy
+
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 140) + 'px';
+}
+
+function sendChip(el) {
+  document.getElementById('user-input').value = el.textContent.trim();
+  sendMessage();
+}
+
+async function sendMessage() {
+  const input = document.getElementById('user-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = ''; input.style.height = 'auto';
+  document.getElementById('send-btn').disabled = true;
+  const w = document.querySelector('.welcome');
+  if (w) w.remove();
+  appendMsg('user', text);
+  history.push({ role: 'user', content: text });
+  const tid = showTyping();
+  try {
+    const res = await fetch('/api/proxy', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'claude-opus-4-5-20251101',
+        max_tokens: 1500,
+        system: SYSTEM_PROMPT,
+        messages: history
+      })
+    });
+    removeTyping(tid);
+    if (!res.ok) {
+      const e = await res.json().catch(() => ({}));
+      throw new Error(e?.error?.message || 'API error ' + res.status);
+    }
+    const data = await res.json();
+    const reply = data.content?.[0]?.text || 'No response received.';
+    appendMsg('assistant', reply);
+    history.push({ role: 'assistant', content: reply });
+  } catch (err) {
+    removeTyping(tid);
+    appendError(err.message);
+  }
+  document.getElementById('send-btn').disabled = false;
+  input.focus();
+}
+
+function appendMsg(role, text) {
+  const msgs = document.getElementById('messages');
+  const row = document.createElement('div');
+  row.className = 'msg-row ' + (role === 'user' ? 'user' : 'assistant');
+  const av = document.createElement('div');
+  av.className = 'avatar ' + (role === 'user' ? 'user' : 'ai');
+  if (role === 'user') {
+    av.textContent = 'A';
+  } else {
+    av.innerHTML = `<svg width="18" height="18" viewBox="0 0 120 120" fill="none"><line x1="60" y1="22" x2="94" y2="42" stroke="#E8197A" stroke-width="4"/><line x1="94" y1="42" x2="94" y2="78" stroke="#E8197A" stroke-width="4"/><line x1="94" y1="78" x2="60" y2="98" stroke="#E8197A" stroke-width="4"/><line x1="60" y1="98" x2="26" y2="78" stroke="#E8197A" stroke-width="4"/><line x1="26" y1="78" x2="26" y2="42" stroke="#E8197A" stroke-width="4"/><line x1="26" y1="42" x2="60" y2="22" stroke="#E8197A" stroke-width="4"/><circle cx="60" cy="22" r="10" fill="#FF5A1F"/><circle cx="94" cy="42" r="10" fill="#FF5A1F"/><circle cx="94" cy="78" r="10" fill="#FF5A1F"/><circle cx="60" cy="98" r="10" fill="#FF5A1F"/><circle cx="26" cy="78" r="10" fill="#FF5A1F"/><circle cx="26" cy="42" r="10" fill="#FF5A1F"/><circle cx="60" cy="60" r="10" fill="#FF5A1F"/></svg>`;
+  }
+  const bub = document.createElement('div');
+  bub.className = 'bubble ' + (role === 'user' ? 'user' : 'ai');
+  if (role === 'assistant') {
+    bub.innerHTML = fmt(text);
+    const note = document.createElement('div');
+    note.className = 'src-note';
+    note.textContent = 'Sources: FL Bar Rules, Ethics Opinions & case law in loaded knowledge base · Current as of Apr 25, 2026 · Always verify cited authorities independently before relying on them';
+    bub.appendChild(note);
+  } else {
+    bub.textContent = text;
+  }
+  row.appendChild(av);
+  row.appendChild(bub);
+  msgs.appendChild(row);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function fmt(t) {
+  return t
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g,'<em>$1</em>')
+    .replace(/\n\n/g,'</p><p>')
+    .replace(/\n- /g,'<br>• ')
+    .replace(/^(.+)/,'<p>$1</p>');
+}
+
+function showTyping() {
+  const msgs = document.getElementById('messages');
+  const id = 'typ-' + Date.now();
+  const row = document.createElement('div');
+  row.className = 'msg-row assistant'; row.id = id;
+  row.innerHTML = `<div class="avatar ai"><svg width="18" height="18" viewBox="0 0 120 120" fill="none"><line x1="60" y1="22" x2="94" y2="42" stroke="#E8197A" stroke-width="4"/><line x1="94" y1="42" x2="94" y2="78" stroke="#E8197A" stroke-width="4"/><line x1="94" y1="78" x2="60" y2="98" stroke="#E8197A" stroke-width="4"/><line x1="60" y1="98" x2="26" y2="78" stroke="#E8197A" stroke-width="4"/><line x1="26" y1="78" x2="26" y2="42" stroke="#E8197A" stroke-width="4"/><line x1="26" y1="42" x2="60" y2="22" stroke="#E8197A" stroke-width="4"/><circle cx="60" cy="22" r="10" fill="#FF5A1F"/><circle cx="94" cy="42" r="10" fill="#FF5A1F"/><circle cx="94" cy="78" r="10" fill="#FF5A1F"/><circle cx="60" cy="98" r="10" fill="#FF5A1F"/><circle cx="26" cy="78" r="10" fill="#FF5A1F"/><circle cx="26" cy="42" r="10" fill="#FF5A1F"/><circle cx="60" cy="60" r="10" fill="#FF5A1F"/></svg></div><div class="bubble ai" style="padding:10px 18px;"><div class="typing-indicator"><span></span><span></span><span></span></div></div>`;
+  msgs.appendChild(row);
+  msgs.scrollTop = msgs.scrollHeight;
+  return id;
+}
+
+function removeTyping(id) {
+  const e = document.getElementById(id);
+  if (e) e.remove();
+}
+
+function appendError(msg) {
+  const msgs = document.getElementById('messages');
+  const d = document.createElement('div');
+  d.className = 'err-bubble';
+  d.innerHTML = `<strong>Error:</strong> ${msg}<br><span style="font-size:12px;opacity:0.7;display:block;margin-top:4px;">Check your API key is valid and has sufficient credits.</span>`;
+  msgs.appendChild(d);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+// Always show consent on load
+
+// ─── TOKEN VALIDATION ─────────────────────────────────────────
+async function checkToken() {
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get('token');
+
+  if (!token) {
+    // No token — show gate
+    document.getElementById('token-screen').style.display = 'flex';
+    return;
+  }
+
+  // Show checking state
+  document.getElementById('token-screen').style.display = 'flex';
+  document.getElementById('gate-default').style.display = 'none';
+  document.getElementById('gate-checking').style.display = 'block';
+
+  try {
+    const res = await fetch('/api/validate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token })
+    });
+    const data = await res.json();
+
+    if (data.valid) {
+      // Valid token — store user info and proceed to consent
+      sessionStorage.setItem('lal_user', JSON.stringify({
+        name: data.name,
+        barNumber: data.barNumber,
+        email: data.email,
+        token: token
+      }));
+      document.getElementById('token-screen').style.display = 'none';
+      document.getElementById('consent-screen').style.display = 'flex';
+    } else {
+      // Invalid token
+      document.getElementById('gate-checking').style.display = 'none';
+      document.getElementById('gate-invalid').style.display = 'block';
+    }
+  } catch (err) {
+    document.getElementById('gate-checking').style.display = 'none';
+    document.getElementById('gate-invalid').style.display = 'block';
+  }
+}
+
+window.addEventListener('load', () => {
+  document.getElementById('token-screen').style.display = 'none';
+  document.getElementById('consent-screen').style.display = 'none';
+  document.getElementById('chat-screen').style.display = 'none';
+  checkToken();
+});
+</script>
+</body>
+</html>
