@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/register", "destination": "/register.html" },
+    { "source": "/api/(.*)", "destination": "/api/$1" }
+  ]
+}
